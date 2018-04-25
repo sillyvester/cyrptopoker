@@ -1,10 +1,10 @@
 {
-  "name": "crypto-poker",
+  "name": "cryptopoker",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng build && node ./bin/www",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -21,8 +21,16 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "body-parser": "^1.18.2",
+    "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
+    "deck-of-cards": "^0.1.8",
+    "express": "^4.16.3",
+    "jquery": "^3.3.1",
+    "morgan": "^1.9.0",
+    "popper.js": "^1.14.1",
     "rxjs": "^5.5.6",
+    "serve-favicon": "^2.5.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
