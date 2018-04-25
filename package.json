@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng build && node ./bin/www",
+    "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
@@ -24,7 +24,7 @@
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
-    "deck-of-cards": "^0.1.8",
+    "deck-of-cards": "github:l1onh3art88/deck-of-cards",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
     "morgan": "^1.9.0",

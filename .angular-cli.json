@@ -23,7 +23,7 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/deck-of-cards/dist/deck.min.js"
+        "../node_modules/deck-of-cards/dist/deck.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
