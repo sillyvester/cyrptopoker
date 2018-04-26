@@ -24,7 +24,6 @@ export class LandingComponent implements OnInit {
   public fanCards() {
     this.deck.flip();
     this.deck.fan();
-    console.log(this.deck);
   }
   public deal(){
     for(let player = 0;player<this.players;player++){
@@ -42,6 +41,9 @@ export class LandingComponent implements OnInit {
       }
 
     }
+  }
+  public flipCards(){
+    this.deck.flip();
   }
 
 
