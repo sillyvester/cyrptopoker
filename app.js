@@ -5,7 +5,11 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var api = require('./routes/api');
+
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -32,4 +36,18 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// testing socket chat services
+io.on('connection',function(socket){
+  console.log("a user connected");
+
+  socket.on('message', (message) => {
+    console.log("message received: " + message);
+    io.emit('message', {type: 'new-message', text: message})
+  })
+});
+
 module.exports = app;
+
+http.listen(5000,() => {
+  console.log('started on port 5000');
+});

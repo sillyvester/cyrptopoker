@@ -1,6 +1,74 @@
 #pokerTableImage{
-  width: 70vw;
+  width: 55vw;
   display: block;
   margin: auto;
   margin-top: 20vh;
 }
+
+/* player UI */
+
+.playerUI{
+  position: fixed;
+  right:0;
+  bottom:0;
+  max-width: 30vw;
+  max-height:40vh;
+
+  background-color:#56453e;
+}
+.playerUI h2{
+  color:white;
+}
+/* testing buttons */
+
+.testing{
+  position: fixed;
+  top:0;
+}
+/* chat box */
+.chatBox{
+  position: fixed;
+  left:0;
+  bottom:0;
+  overflow: scroll;
+  background:white;
+  height: 25vh;
+  width:30vw;
+}
+#messages{
+  height: 20vh;
+  overflow:scroll;
+}
+/* messages form css */
+form{
+  bottom:0;
+  background:#000;
+  padding:3px;
+  position: absolute;
+  width:30vw;
+}
+form input {
+  border:0;
+  display: inline-block;
+  width:69%;
+  margin-right:.5%;
+}
+form button {
+  width:30%;
+  background: rgb(130, 222, 255);
+  border:none;
+  display: inline-block;
+}
+/* messages css */
+#messages{
+  list-style-type: none;
+  margin:0;
+  padding:0;
+}
+#messages li {
+  padding:5px 10px;
+}
+#messages li:nth-child(odd){
+  background:#eee
+}
+
