@@ -5,11 +5,12 @@ import * as Rx from 'rxjs/Rx';
 
 @Injectable()
 export class WebsocketService {
+
   private socket; // socket that connects to our socket.io server
   constructor() { }
 
     connect():Rx.Subject<MessageEvent>{
-      this.socket = io('http://localhost:5000');
+      this.socket = io('cryptopoker.us-west-2.elasticbeanstalk.com:5000');
 
       // Observable to check for any incoming messages to the socket.io server
 
