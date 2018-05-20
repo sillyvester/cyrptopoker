@@ -9,7 +9,7 @@ export class WebsocketService {
   constructor() { }
 
     connect():Rx.Subject<MessageEvent>{
-      this.socket = io('http://localhost:5000');
+      this.socket = io('http://18.237.179.99:5000');
 
       // Observable to check for any incoming messages to the socket.io server
 
