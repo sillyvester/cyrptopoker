@@ -9,7 +9,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var api = require('./routes/api');
 
-
+app.set('view engine','html')
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -33,8 +33,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
-});
+  res.json({
+    message: err.message,
+    error: err
+  });});
 
 // testing socket chat services
 io.on('connection',function(socket){
