@@ -39,12 +39,33 @@ app.use(function(err, req, res, next) {
   });});
 
 // testing socket chat services
+
+var clients = [];
 io.on('connection',function(socket){
   console.log("a user connected");
-
+  socket.on('clientInfo',(data) => {
+    console.log(" name received: " + data);
+    let clientInfo = new Object()
+    clientInfo.alias = data;
+    clientInfo.clientID = socket.id;
+    // checks to see if user already exists
+    let unique = true;
+    for(let x= 0;x<clients.length;x++){
+      if(clients[x].clientID == socket.id){
+        unique = false;
+      }
+    }
+    if(unique){clients.push(clientInfo)}
+  })
   socket.on('message', (message) => {
     console.log("message received: " + message);
-    io.emit('message', {type: 'new-message', text: message})
+    let name="";
+    for(let x= 0;x<clients.length;x++){
+      if(clients[x].clientID==socket.id){
+        name=clients[x].alias;
+      }
+    }
+    io.emit('message', {type: 'new-message', text: message, alias: name, players: clients})
   })
 });
 

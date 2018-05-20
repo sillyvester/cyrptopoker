@@ -1,3 +1,4 @@
+<div *ngIf = "nameForm"class ="overlay"></div>
 <div id="pokerTable">
   <div id="container">
   </div>
@@ -5,22 +6,28 @@
 
 </div>
 <div class="container">
+  <form *ngIf="nameForm"id="nameForm" (ngSubmit)="nameForm = !nameForm" #formName ="ngForm">
+    <input class="form-control mr-3" required placeholder="Enter Name" name="name" [(ngModel)]="name" id="nameInput"/><button [disabled]="!formName.form.valid"class="btn btn-primary"type="submit">Enter</button>
+  </form>
+
   <div class="chatBox">
-    <ul id="messages">
+    <ul id="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
       <li *ngFor="let newMessage of messages">
-        {{newMessage}}
+        <span>{{newMessage.alias}}: </span>{{newMessage.text}}
       </li>
     </ul>
-    <form (ngSubmit)="sendMessage()" #chatForm ="ngForm">
+    <form id="chatBoxForm"(ngSubmit)="sendMessage()" #chatForm ="ngForm">
       <input name="message" [(ngModel)]="message"id="messageBox" autocomplete="off" /><button type="submit">Send</button>
     </form>
   </div>
+
   <div class="container testing">
     <button class="btn btn-primary" (click)="fanCards()">Fan Cards</button>
     <button class="btn btn-primary" (click)="deal()">Deal</button>
     <button class="btn btn-primary" (click)="flipCards()">Flip Cards</button>
     <button class="btn btn-primary" (click)="shuffle()">Shuffle Deck</button>
   </div>
+
   <div class="container playerUI">
       <div class="potSizes">
         <button (click)="changeRaise(.25)" class="d-inline-block btn">25%</button>

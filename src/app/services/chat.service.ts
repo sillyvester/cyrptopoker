@@ -10,14 +10,21 @@ export class ChatService {
       .connect()
       .map((response: any): any => {
         return response;
-      })
+      });
+
    }
 
    // interface to send messages back to
    // to the socket.io server
 
-   sendMsg(msg) {
-     this.messages.next(msg);
+   sendMsg(msg, name) {
+     let messageObject = {
+       "msg": msg,
+       "name": name
+     };
+     this.messages.next(messageObject);
    }
+
+
 
 }

@@ -18,8 +18,11 @@ export class LandingComponent implements OnInit {
   smallBlind: 1;
   bigBlind: 2;
   stack: number;
-  message:string;
-  messages:any[]=[];
+  message: string;
+  messages: any[] = [];
+  userID: any;
+  name: string;
+  nameForm: boolean;
 
   ngOnInit() {
     this.deck = new Deck();
@@ -30,18 +33,20 @@ export class LandingComponent implements OnInit {
     this.raise = 0;
     this.pot = 0 ;
     this.stack = 200;
+    this.nameForm = true;
 
 
-    this.chat.messages.subscribe(msg=> {
 
-      this.messages.push(msg.text.replace(/['"]+/g, ''));
+    this.chat.messages.subscribe(msg => {
+      let message = {'text': msg.text.replace(/['"]+/g, ''), 'alias' : msg.alias.replace(/['"]+/g, '')};
+      this.messages.push(message);
       console.log(msg);
-    })
+    });
   }
 
   sendMessage() {
-    this.chat.sendMsg(this.message);
-    this.message=null;
+    this.chat.sendMsg(this.message, this.name);
+    this.message = null;
   }
   public fanCards() {
     this.deck.flip();
