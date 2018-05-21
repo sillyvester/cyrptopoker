@@ -5,45 +5,49 @@ import * as Rx from "rxjs/Rx";
 
 @Injectable()
 export class WebsocketService {
-  private socket; // socket that connects to our socket.io server
+  private chatSocket; // chatSocket that connects to our chatSocket.io server
+
+  // Production
+  // private chatURL = "http://18.237.179.99:5000/chat";
+
+  // Dev
+  private chatURL = "http://localhost:5000/chat";
   constructor() {}
 
-  connect(): Rx.Subject<MessageEvent> {
+  connectToChat(): Rx.Subject<MessageEvent> {
     // Production
-    this.socket = io("http://18.237.179.99:5000");
+    // this.chatSocket = io("http://18.237.179.99:5000");
 
     // Dev
-    // this.socket = io("http://localhost:5000");
+    this.chatSocket = io(this.chatURL);
 
-    // Observable to check for any incoming messages to the socket.io server
-
+    // Observable to check for any incoming messages to the chatSocket.io server
     let observable = new Observable(observer => {
-      this.socket.on("message", data => {
-        console.log("Received message from Websocket Server");
+      this.chatSocket.on("message", data => {
+        console.log("Received message from WebchatSocket Server: ");
         observer.next(data);
       });
       return () => {
-        this.socket.disconnect();
+        this.chatSocket.disconnect();
       };
     });
 
     // observer is defined to listen to messages
     // from other components and send those messages back
-    // to the socket server when the 'next()' method is called
-
+    // to the chatSocket server when the 'next()' method is called
     let observer = {
       next: (data: any) => {
-        this.socket.emit("clientInfo", JSON.stringify(data.name));
-        this.socket.emit("message", JSON.stringify(data.msg));
+        this.chatSocket.emit("message", data);
       }
     };
-
-
-
     // return the Rx.Subject, which combines
     // Observer and Observable
     return Rx.Subject.create(observer, observable);
   }
+
+
+
+
 
 
 }

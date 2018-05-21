@@ -6,14 +6,14 @@
 
 </div>
 <div class="container">
-  <form *ngIf="nameForm"id="nameForm" (ngSubmit)="nameForm = !nameForm" #formName ="ngForm">
-    <input class="form-control mr-3" required placeholder="Enter Name" name="name" [(ngModel)]="name" id="nameInput"/><button [disabled]="!formName.form.valid"class="btn btn-primary"type="submit">Enter</button>
+  <form *ngIf="nameForm"id="nameForm" (ngSubmit)="(nameForm = !nameForm); setName()" #formName ="ngForm">
+    <input class="form-control mr-3" required pattern = "[^'\x22]+" placeholder="Enter Name" name="name" [(ngModel)]="name" id="nameInput"/><button [disabled]="!formName.form.valid"class="btn btn-primary"type="submit">Enter</button>
   </form>
-
+  <h1 *ngIf="players.length < 2" id = "tooFewPlayerWarning">Not Enough Players to Play</h1>
   <div class="chatBox">
     <ul id="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-      <li *ngFor="let newMessage of messages">
-        <span>{{newMessage.alias}}: </span>{{newMessage.text}}
+      <li *ngFor="let newMessage of messages; let i =index;">
+        <span >{{newMessage.alias}}: {{newMessage.text}} </span>
       </li>
     </ul>
     <form id="chatBoxForm"(ngSubmit)="sendMessage()" #chatForm ="ngForm">

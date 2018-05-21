@@ -41,32 +41,45 @@ app.use(function(err, req, res, next) {
 // testing socket chat services
 
 var clients = [];
-io.on('connection',function(socket){
-  console.log("a user connected");
-  socket.on('clientInfo',(data) => {
+function findUserName(id){
+  for(let x= 0;x<clients.length;x++){
+    if(clients[x].clientID.slice(5)==id.slice(5)){
+      return clients[x].alias;
+    }
+  }
+  return null;
+}
+io.of('/game').on('connection',function(socket){
+  console.log("gamesocket:" +socket.id.slice(5));
+  socket.on('newPlayer',(data) => {
     console.log(" name received: " + data);
-    let clientInfo = new Object()
-    clientInfo.alias = data;
-    clientInfo.clientID = socket.id;
-    // checks to see if user already exists
-    let unique = true;
-    for(let x= 0;x<clients.length;x++){
-      if(clients[x].clientID == socket.id){
-        unique = false;
-      }
-    }
-    if(unique){clients.push(clientInfo)}
+    let newPlayer = new Object()
+    newPlayer.alias = data;
+    newPlayer.clientID = socket.id;
+    clients.push(newPlayer)
+
+    io.of('/game').emit('newPlayer', {type: 'listOfPlayers', players: clients})
   })
+
+  socket.on('disconnect' , ()=> {
+    let name = findUserName(socket.id)
+    console.log((name || "A Player")+ " has disconnected");
+    clients.pop();
+    io.of('/game').emit('newPlayer', {type: 'listOfPlayers', players: clients})
+    io.of('/chat').emit('message', {type:'new-message', text: name+ " has disconnected from the game", alias: "Admin"})
+  })
+
+
+
+});
+io.of('/chat').on('connection',function(socket){
+  console.log("chatSocket:" + socket.id.slice(5))
   socket.on('message', (message) => {
-    console.log("message received: " + message);
-    let name="";
-    for(let x= 0;x<clients.length;x++){
-      if(clients[x].clientID==socket.id){
-        name=clients[x].alias;
-      }
-    }
-    io.emit('message', {type: 'new-message', text: message, alias: name, players: clients})
+    console.log("message received: " + JSON.stringify(message));
+    io.of('/chat').emit('message', {type: 'new-message', text: message['msg'], alias: message['name']})
   })
+
+
 });
 
 module.exports = app;

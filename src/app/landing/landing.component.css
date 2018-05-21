@@ -93,3 +93,12 @@ form input {
   background:#eee
 }
 
+/* Game Warnings */
+
+#tooFewPlayerWarning {
+  position: fixed;
+  top:30%;
+  color:white;
+  left:30%;
+}
+

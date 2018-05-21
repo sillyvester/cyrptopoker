@@ -1,3 +1,4 @@
+import { GameService } from './services/game.service';
 import { WebsocketService } from './services/websocket.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,7 +20,7 @@ import { ChatService } from './services/chat.service';
     FormsModule,
     BrowserModule
   ],
-  providers: [ChatService,WebsocketService],
+  providers: [ChatService, WebsocketService, GameService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
