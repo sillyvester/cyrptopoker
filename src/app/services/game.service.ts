@@ -5,10 +5,10 @@ import { Observable, Subject } from "rxjs/Rx";
 export class GameService {
   private gameSocket; // gameSocket determines when a person connects to the game application.
   // Production
-  // private gameURL = "http://18.237.179.99:5000/game";
+  private gameURL = "http://18.237.179.99:5000/game";
 
   // Dev
-  private gameURL = "http://localhost:5000/game";
+  // private gameURL = "http://localhost:5000/game";
   // calls the wsService connect method
   constructor() {
   }

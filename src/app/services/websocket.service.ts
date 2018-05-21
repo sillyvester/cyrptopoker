@@ -16,10 +16,10 @@ export class WebsocketService {
 
   connectToChat(): Rx.Subject<MessageEvent> {
     // Production
-    // this.chatSocket = io("http://18.237.179.99:5000");
+    this.chatSocket = io("http://18.237.179.99:5000");
 
     // Dev
-    this.chatSocket = io(this.chatURL);
+    // this.chatSocket = io(this.chatURL);
 
     // Observable to check for any incoming messages to the chatSocket.io server
     let observable = new Observable(observer => {
