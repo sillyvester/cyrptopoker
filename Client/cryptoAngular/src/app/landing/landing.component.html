@@ -1,0 +1,47 @@
+<div *ngIf = "nameForm"class ="overlay"></div>
+<div id="pokerTable">
+  <div id="container">
+  </div>
+  <img id="pokerTableImage" src="../../assets/images/pokerTable.png" />
+
+</div>
+<div class="container">
+  <form *ngIf="nameForm"id="nameForm" (ngSubmit)="(nameForm = !nameForm); setName()" #formName ="ngForm">
+    <input class="form-control mr-3" required pattern = "[^'\x22]+" placeholder="Enter Name" name="name" [(ngModel)]="name" id="nameInput"/><button [disabled]="!formName.form.valid"class="btn btn-primary"type="submit">Enter</button>
+  </form>
+  <h1 *ngIf="players.length < 2" id = "tooFewPlayerWarning">Not Enough Players to Play</h1>
+  <div class="chatBox">
+    <ul id="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <li *ngFor="let newMessage of messages; let i =index;">
+        <span >{{newMessage.alias}}: {{newMessage.text}} </span>
+      </li>
+    </ul>
+    <form id="chatBoxForm"(ngSubmit)="sendMessage()" #chatForm ="ngForm">
+      <input name="message" [(ngModel)]="message"id="messageBox" autocomplete="off" /><button type="submit">Send</button>
+    </form>
+  </div>
+
+  <div class="container testing">
+    <button class="btn btn-primary" (click)="fanCards()">Fan Cards</button>
+    <button class="btn btn-primary" (click)="deal()">Deal</button>
+    <button class="btn btn-primary" (click)="flipCards()">Flip Cards</button>
+    <button class="btn btn-primary" (click)="shuffle()">Shuffle Deck</button>
+  </div>
+
+  <div class="container playerUI">
+      <div class="potSizes">
+        <button (click)="changeRaise(.25)" class="d-inline-block btn">25%</button>
+        <button (click)="changeRaise(.5)" class="d-inline-block btn">50%</button>
+        <button (click)="changeRaise(.75)" class="d-inline-block btn">75%</button>
+        <button (click)="changeRaise(1)" class="d-inline-block btn">100%</button>
+      </div>
+      <h2>Stack: {{stack}}</h2>
+      <input name="raiseSlider" id="raiseSlider" type="range" min="{{bigBlind}}" max="stack" [(ngModel)]="raise">
+      <input name="raiseAmount" id="raiseAmount" type="number" min="{{bigBlind}}" max="stack" [(ngModel)]="raise">
+      <button (click)="bet()" class="btn">Bet</button>
+      <button class="btn">Fold</button>
+      <button class="btn">Raise</button>
+    </div>
+</div>
+<div class="clearfix">
+</div>
