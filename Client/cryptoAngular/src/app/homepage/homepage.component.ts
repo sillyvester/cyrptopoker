@@ -1,4 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { TemplateRef } from '@angular/core';
+import { FormsModule} from '@angular/forms';
+import {NgSelectModule} from '@ng-select/ng-select';
+
 
 @Component({
   selector: "app-homepage",
@@ -6,19 +12,23 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./homepage.component.scss"]
 })
 export class HomepageComponent implements OnInit {
-  constructor() {}
-
 
   myStyle: object;
   myParams: object;
   interactivity: object;
+  modalRef: BsModalRef;
+  constructor(private modalService: BsModalService) {}
+  stakes = ["1/2", "1/3", "2/5"];
+  selectedStakes: string[];
+  selectedPlayers: string[];
+  buyIn: number;
 
   ngOnInit() {
     this.myStyle = {
       position: "fixed",
       width: "100",
       height: "10",
-      "z-index": -1,
+      "z-index": -10,
       top: 0,
       left: 0,
       right: 0,
@@ -28,7 +38,7 @@ export class HomepageComponent implements OnInit {
     this.myParams = {
       particles: {
         number: {
-          value: 100
+          value: 130
         },
         color: {},
         shape: {
@@ -43,7 +53,7 @@ export class HomepageComponent implements OnInit {
             mode: "repulse"
           },
           onclick: {
-            enable: true,
+            enable: false,
             mode: "push"
           },
           resize: false
@@ -51,4 +61,9 @@ export class HomepageComponent implements OnInit {
       }
     };
   }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    console.log("button hit");
+  }
+  addStakes = (term) => ({id: term, name: term});
 }

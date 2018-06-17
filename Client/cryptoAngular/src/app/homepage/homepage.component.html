@@ -1,10 +1,8 @@
+<particles [style]="myStyle" [params]="myParams"></particles>
 <div class="cointainer-fluid d-flex  p-3 flex-column text-center">
-  <div class="fixed-bottom">
-    <particles [style]="myStyle" [params]="myParams"></particles>
-  </div>
   <h1 id="title" class="mb-3"> Welcome To Crypto Poker</h1>
   <div class="flex-column text-center p-3 m-3">
-    <button class="btn btn-light">
+    <button class="btn btn-light" (click)="openModal(PlayNow)">
       Play Now
     </button>
   </div>
@@ -19,3 +17,39 @@
     </button>
   </div>
 </div>
+
+<ng-template #PlayNow>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Game Options</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body flex-column">
+    <label>Stakes</label>
+    <ng-select [items]="stakes"
+      bindLabel="Stakes"
+      placeholder="Select Stakes"
+      [(ngModel)]="selectedStakes"
+      [multiple]="true">
+    </ng-select>
+    <label>Max Players</label>
+    <ng-select [items]="[2,6,9]"
+      bindLabel="Stakes"
+      placeholder="Select Stakes"
+      [(ngModel)]="selectedPlayers"
+      [multiple]="true">
+    </ng-select>
+    <div class="row mt-2 ml-1">
+        <label>Buy-In</label>
+    </div>
+    <div class="row ml-1">
+        <input [(ngModel)]="buyIn">
+    </div>
+    <div class="row-fluid mt-2 ml-1">
+      <div class="btn btn-dark">
+        Search
+      </div>
+      </div>
+  </div>
+</ng-template>
