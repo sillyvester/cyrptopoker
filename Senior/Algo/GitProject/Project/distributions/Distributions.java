@@ -8,7 +8,7 @@ public class Distributions {
   // num courses being offered
   private int C;
 
-  private int[] allClasses;
+  public int[] allClasses;
 
   private Random rand;
 
@@ -19,112 +19,119 @@ public class Distributions {
 
   }
 
+  // use 99 as seed to replicate results consistent
+
+
   public Distributions(int c, int k, String distro) {
     C = c;
     K = k;
     dist = distro;
-    rand = new Random(99); // using 87 as seed to keep results consistent
+    rand = new Random();
     allClasses = new int[C];
-    for(int i = 0; i < allClasses.length; i++) {
-      allClasses[i] = i;
-    }
+    formatClassArray();
   }
 
   public int[] getDistro() {
-    if(dist.toLowerCase() == "skewed") {
+    if(dist.toLowerCase().equals("skewed")) {
+      // System.out.println("skewed");
       return skewed();
     }
-    else if(dist.toLowerCase() == "4-tiered") {
+    else if(dist.toLowerCase().equals("4-tiered")) {
+      // System.out.println("4-tiered");
       return fourTiered();
     }
-    else if(dist.toLowerCase() == "gaussian") {
-      return gaussian();
-    }
     else {
+      // System.out.println("uniform");
       return uniform();
     }
   }
 
   // DISTRIBUTIONS
   public int[] uniform() {
-    return fisherYates(allClasses);
+    return fisherYates();
   }
 
   public int[] skewed() {
-    return skewedFisherYates(allClasses);
+    formatClassArray();
+    return skewedFisherYates();
   }
 
   public int[] fourTiered() {
-    return tieredFisherYates(allClasses);
+    formatClassArray();
+    return tieredFisherYates();
   }
 
-  public int[] gaussian() {
-    return gaussianFisherYates(allClasses);
-  }
 
 
   // FISHER YATES SECTION
-  public int[] fisherYates(int[] classes) {
+  public int[] fisherYates() {
     int[] assigned = new int[K];
     int randVal;
     int randElement;
-    // System.out.println(classes.length);
+    // System.out.println(allClasses.length);
     // System.out.println(assigned.length);
     for(int i = 0; i < assigned.length; i++) {
-      randVal = i + rand.nextInt(classes.length - i); // get random index greater than current index
+      randVal = i + rand.nextInt(allClasses.length - i); // get random index greater than current index
 
       // get the element at the random index
-      randElement = classes[randVal];
+      randElement = allClasses[randVal];
       // the following two lines swap the random element and current element
-      classes[randVal] = classes[i];
-      classes[i] = randElement;
-      // add the random element which is now at the current index to the assigned classes
-      assigned[i] = classes[i];
+      allClasses[randVal] = allClasses[i];
+      allClasses[i] = randElement;
+      // add the random element which is now at the current index to the assigned allClasses
+      assigned[i] = allClasses[i];
     }
 
     return assigned;
   }
 
-  public int[] skewedFisherYates(int[] classes) {
+  public int[] skewedFisherYates() {
     int[] assigned = new int[K];
     int randVal;
     int randElement;
     for(int i = 0; i < assigned.length; i++) {
-      randVal = i + Math.min(rand.nextInt(classes.length - i), rand.nextInt(classes.length - i)); // get random index greater than current index, the min function linearly skews the data as needed
+      // get random index greater than current index, the min function linearly skews the data as needed
+      randVal = i + Math.min(rand.nextInt(allClasses.length - i), rand.nextInt(allClasses.length - i));
 
       // get the element at the random index
-      randElement = classes[randVal];
+      randElement = allClasses[randVal];
       // the following two lines swap the random element and current element
-      classes[randVal] = classes[i];
-      classes[i] = randElement;
-      // add the random element which is now at the current index to the assigned classes
-      assigned[i] = classes[i];
+      allClasses[randVal] = allClasses[i];
+      allClasses[i] = randElement;
+      // add the random element which is now at the current index to the assigned allClasses
+      assigned[i] = allClasses[i];
     }
 
     return assigned;
   }
 
-    public int[] tieredFisherYates(int[] classes) {
+    public int[] tieredFisherYates() {
     int[] assigned = new int[K];
     int randVal;
     int randElement;
     int tier;
-    int quarter;
+    int firstQuarter;
+    int secondQuarter;
+    int thirdQuarter;
+    int fourthQuarter;
     for(int i = 0; i < assigned.length; i++) {
       tier = rand.nextInt(100);
-      quarter = (classes.length - i) / 4;
+      firstQuarter = (allClasses.length - i) / 4;
+      secondQuarter = ((allClasses.length - i) / 2 ) - ((allClasses.length - i) / 4);
+      thirdQuarter = ((allClasses.length - i) / 2) + ((allClasses.length - i) / 4);
+      fourthQuarter = (allClasses.length - i) - ((allClasses.length - i) / 4);
       if(tier < 40) {
         // need to figure out how to correctly fisher yates dis biiiish
-        randVal = i + rand.nextInt();
+        randVal = i + rand.nextInt(firstQuarter);
       }
       else if((40 <= tier) && (tier < 70)) {
-        randVal = i + rand.nextInt(quarter);
+        randVal = i + rand.nextInt(secondQuarter);
       }
       else if((70 <= tier) && (tier < 90)) {
-        randVal = i + rand.nextInt(classes.length - i);
+        randVal = i + rand.nextInt(thirdQuarter);
       }
       else if((90 <= tier) && (tier < 100)) {
-        randVal = i + rand.nextInt(classes.length - i);
+        randVal = i + rand.nextInt(fourthQuarter);
       }
       else {
         System.out.println("something bad happened");
@@ -132,48 +139,21 @@ public class Distributions {
       }
 
       // get the element at the random index
-      randElement = classes[randVal];
+      randElement = allClasses[randVal];
       // the following two lines swap the random element and current element
-      classes[randVal] = classes[i];
-      classes[i] = randElement;
-      // add the random element which is now at the current index to the assigned classes
-      assigned[i] = classes[i];
+      allClasses[randVal] = allClasses[i];
+      allClasses[i] = randElement;
+      // add the random element which is now at the current index to the assigned allClasses
+      assigned[i] = allClasses[i];
     }
 
     return assigned;
   }
 
-
-
-  public int[] gaussianFisherYates(int[] classes) {
-    int[] temp = {0};
-    return temp;
+  public void formatClassArray() {
+    for(int i = 0; i < allClasses.length; i++) {
+      allClasses[i] = i;
+    }
   }
 
-
-
 }
-
-
-
-
-  // public int[] fisherYates(int[] classes) {
-  //   int[] assigned = new int[K];
-  //   int randVal;
-  //   int randElement;
-  //   System.out.println(classes.length);
-  //   System.out.println(assigned.length);
-  //   for(int i = 0; i < assigned.length; i++) {
-  //     randVal = i + rand.nextInt(classes.length - i); // get random index greater than current index
-
-  //     // get the element at the random index
-  //     randElement = classes[randVal];
-  //     // the following two lines swap the random element and current element
-  //     classes[randVal] = classes[i];
-  //     classes[i] = randElement;
-  //     // add the random element which is now at the current index to the assigned classes
-  //     assigned[i] = classes[i];
-  //   }
-
-  //   return assigned;
-  // }

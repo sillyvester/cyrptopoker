@@ -48,14 +48,31 @@ public class Driver {
     p = new int[c];
     distObj = new Distributions(c, k, dist);
 
+    // int[] classesTaken;
+    // long start = System.currentTimeMillis();
+    // for(int i = 0; i < s; i++) {
+    //   classesTaken = distObj.getDistro();
+    // }
+    // long end = System.currentTimeMillis();
+    // long timeSpent = end- start;
+    // System.out.println(timeSpent);
+
+
+    // try {
+    //   createClasses(s, dist, distObj);
+    // }
+    // catch(IOException e8) {
+
+    // }
+
     countConflicts();
-    prepareEandP();
+    // prepareEandP();
 
     e = new int[2 * m];
 
-    readOutputFromP1();
-    // smallestLast();
-    welshPowell();
+    // readOutputFromP1();
+    // // smallestLast();
+    // welshPowell();
 
     // int[] temp = distro.skewed();
     // for(int i = 0; i < temp.length; i++) {
@@ -102,58 +119,62 @@ public class Driver {
     int conflictToCheck;
     boolean conflictExists;
 
-    Instant start = Instant.now();
-    Instant end;
-
+    long start = System.currentTimeMillis();
+    System.out.println();
+    System.out.println("Each line below is an individual student's classes");
     for (int i = 0; i < s; i++) {
 
       // FileWriter fw = new FileWriter("ClassesTaken.txt");
-      System.out.println();
-      System.out.println();
-      System.out.println();
-      System.out.println();
+      // System.out.println();
+      // System.out.println();
+      // System.out.println();
+      // System.out.println();
       classesTaken = distObj.getDistro();
       for (int k = 0; k < classesTaken.length; k++) {
-        appendStrToFile("ClassesTaken.txt", (" " + classesTaken[k]));
+        // appendStrToFile("ClassesTaken.txt", (" " + classesTaken[k]));
         System.out.print(" " + classesTaken[k]);
       }
-      appendStrToFile("ClassesTaken.txt", "\n");
       System.out.println();
+      // appendStrToFile("ClassesTaken.txt", "\n");
+      // System.out.println();
 
       for (int j = 0; j < classesTaken.length; j++) {
         tempClass = classesTaken[j];
-        System.out.println("tempClass: " + tempClass);
+        // System.out.println("tempClass: " + tempClass);
         conflicts = eTemp[tempClass].split("-");
         for (int k = 0; k < classesTaken.length; k++) {
           if (k != j) {
-            System.out.println("e[tempClass] (conflicts for tempClass): " + eTemp[tempClass]);
+            // System.out.println("e[tempClass] (conflicts for tempClass): " + eTemp[tempClass]);
             conflictToCheck = classesTaken[k];
             conflictExists = false;
             for (int m = 0; m < conflicts.length; m++) {
-              System.out.println("conflictToCheck: " + conflictToCheck);
-              System.out.println("conflicts[m]: " + conflicts[m]);
+              // System.out.println("conflictToCheck: " + conflictToCheck);
+              // System.out.println("conflicts[m]: " + conflicts[m]);
               if (conflicts[m].equals(Integer.toString(conflictToCheck))) {
                 conflictExists = true;
-                System.out.println("conflict already exists");
+                // System.out.println("conflict already exists");
                 break;
               }
             }
             if (!conflictExists) {
-              System.out.println("conflict didnt exist");
+              // System.out.println("conflict didnt exist");
               eTemp[tempClass] += "" + conflictToCheck + "-";
               eTemp[conflictToCheck] += "" + tempClass + "-";
               m++;
             }
           }
         }
-        System.out.println(eTemp[tempClass]);
-        System.out.println();
-        System.out.println();
+        // System.out.println(eTemp[tempClass]);
+        // System.out.println();
+        // System.out.println();
       }
 
     }
-    end = Instant.now();
-    long timeSpent = end.toEpochMilli() - start.toEpochMilli();
+    long end = System.currentTimeMillis();
+    long timeSpent = end- start;
+   // System.out.println(timeSpent);
+   System.out.println();
+   System.out.println("Below are the conflicts. The left side denotes the class \nand the right side is the conflicts with that class");
     for (int z = 0; z < eTemp.length; z++) {
       System.out.println(z + ": " + eTemp[z]);
     }
@@ -445,7 +466,6 @@ public class Driver {
 
   }
 
-
   public static void welshPowell() {
     prepareColoringDataStructures();
     int maxDegree =  c - 1;
@@ -534,7 +554,6 @@ public class Driver {
       }
     }
   }
-
 
   public static void prepareColoringDataStructures() {
     adjacencyList = new Fullnode[c];
