@@ -3,7 +3,7 @@ package structures;
 
 public class Fullnode {
 
-
+  public int originalDegree;
   public int degree;
   public int name;
   public Lightnode adjListHead;

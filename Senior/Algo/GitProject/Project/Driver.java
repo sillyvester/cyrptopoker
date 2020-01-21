@@ -51,27 +51,30 @@ public class Driver {
     // int[] classesTaken;
     // long start = System.currentTimeMillis();
     // for(int i = 0; i < s; i++) {
-    //   classesTaken = distObj.getDistro();
+    // classesTaken = distObj.getDistro();
     // }
     // long end = System.currentTimeMillis();
     // long timeSpent = end- start;
     // System.out.println(timeSpent);
 
-
     // try {
-    //   createClasses(s, dist, distObj);
+    // createClasses(s, dist, distObj);
     // }
     // catch(IOException e8) {
 
     // }
 
     countConflicts();
-    // prepareEandP();
+    prepareEandP();
 
     e = new int[2 * m];
+    try {
+      readOutputFromP1();
+    } catch(IOException e) {
 
-    // readOutputFromP1();
-    // // smallestLast();
+    }
+
+    smallestLast();
     // welshPowell();
 
     // int[] temp = distro.skewed();
@@ -144,7 +147,8 @@ public class Driver {
         conflicts = eTemp[tempClass].split("-");
         for (int k = 0; k < classesTaken.length; k++) {
           if (k != j) {
-            // System.out.println("e[tempClass] (conflicts for tempClass): " + eTemp[tempClass]);
+            // System.out.println("e[tempClass] (conflicts for tempClass): " +
+            // eTemp[tempClass]);
             conflictToCheck = classesTaken[k];
             conflictExists = false;
             for (int m = 0; m < conflicts.length; m++) {
@@ -171,10 +175,11 @@ public class Driver {
 
     }
     long end = System.currentTimeMillis();
-    long timeSpent = end- start;
-   // System.out.println(timeSpent);
-   System.out.println();
-   System.out.println("Below are the conflicts. The left side denotes the class \nand the right side is the conflicts with that class");
+    long timeSpent = end - start;
+    // System.out.println(timeSpent);
+    System.out.println();
+    System.out.println(
+        "Below are the conflicts. The left side denotes the class \nand the right side is the conflicts with that class");
     for (int z = 0; z < eTemp.length; z++) {
       System.out.println(z + ": " + eTemp[z]);
     }
@@ -211,7 +216,7 @@ public class Driver {
     }
   }
 
-  public static void readOutputFromP1() {
+  public static void readOutputFromP1() throws IOException {
     File file = new File("OutputP1.txt");
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 
@@ -237,33 +242,33 @@ public class Driver {
 
   // VERTEX ORDERINGS
   public static void smallestLast() {
+    long start = System.currentTimeMillis();
     prepareColoringDataStructures();
     int minDegree = 0;
     int numOfDeletedNodes = 0;
     while (numOfDeletedNodes != c) {
       for (int i = 0; i < c; i++) {
         tempFull = degreeList[i];
-        System.out.print(i + "\t");
+        // System.out.print(i + "\t");
         while (tempFull != null) {
-          System.out.print(tempFull.name + "->");
+          // System.out.print(tempFull.name + "->");
           tempFull = tempFull.degreeListNext;
         }
-        System.out.println();
+        // System.out.println();
       }
-      System.out.println();
-      System.out.println();
+      // System.out.println();
+      // System.out.println();
       if (degreeList[minDegree] == null) {
-        System.out.println("Current Degree: " + minDegree);
-        System.out.println("Nothing at this degree");
+        // System.out.println("Current Degree: " + minDegree);
+        // System.out.println("Nothing at this degree");
         minDegree++;
       } else {
-        System.out.println("Current Degree: " + minDegree);
-        System.out.println("Deleted Node: " + degreeList[minDegree].name);
+        // System.out.println("Current Degree: " + minDegree);
+        // System.out.println("Deleted Node: " + degreeList[minDegree].name);
         degreeList[minDegree].deleted = 1;
-        if(tempFullDeleted == null) {
+        if (tempFullDeleted == null) {
           tempFullDeleted = degreeList[minDegree];
-        }
-        else {
+        } else {
           tempFullDeleted.orderingListNext = degreeList[minDegree];
           degreeList[minDegree].orderingListPrev = tempFullDeleted;
           tempFullDeleted = degreeList[minDegree];
@@ -274,34 +279,33 @@ public class Driver {
         tempLight = degreeList[minDegree].adjListHead;
         // case 2 - first node for that degree
         if ((degreeList[minDegree].degreeListNext != null) && (degreeList[minDegree].degreeListPrev == null)) {
-          System.out.println("Original node case 2");
+          // System.out.println("Original node case 2");
           degreeList[minDegree].degreeListNext.degreeListPrev = null;
           degreeList[minDegree] = degreeList[minDegree].degreeListNext;
         }
         // case 4 - only node for that degree
         else if ((degreeList[minDegree].degreeListNext == null) && (degreeList[minDegree].degreeListPrev == null)) {
-          System.out.println("Original node case 4");
+          // System.out.println("Original node case 4");
           degreeList[minDegree] = null;
           degreePointers[minDegree] = null;
-        }
-        else {
-          System.out.println("SOMETHING IS WRONG");
+        } else {
+          // System.out.println("SOMETHING IS WRONG");
         }
 
         for (int i = 0; i < c; i++) {
           tempFull = degreeList[i];
-          System.out.print(i + "\t");
+          // System.out.print(i + "\t");
           while (tempFull != null) {
-            System.out.print(tempFull.name + "->");
+            // System.out.print(tempFull.name + "->");
             tempFull = tempFull.degreeListNext;
           }
-          System.out.println();
+          // System.out.println();
         }
-        System.out.println();
+        // System.out.println();
         while (tempLight != null) {
-          if(tempLight.full.deleted != 1) {
-            System.out.println("Now looking at: " + tempLight.full.name);
-            System.out.println("Deleted field: " + tempLight.full.deleted);
+          if (tempLight.full.deleted != 1) {
+            // System.out.println("Now looking at: " + tempLight.full.name);
+            // System.out.println("Deleted field: " + tempLight.full.deleted);
             tempLight.full.degree--;
             // case 1 - middle node
             if ((tempLight.full.degreeListNext != null) && (tempLight.full.degreeListPrev != null)) {
@@ -309,7 +313,7 @@ public class Driver {
               tempLight.full.degreeListNext.degreeListPrev = tempLight.full.degreeListPrev;
               // case 1.1 - there are no nodes in the new(decremented) degree
               if (degreeList[tempLight.full.degree] == null) {
-                System.out.println("case 1.1");
+                // System.out.println("case 1.1");
                 degreeList[tempLight.full.degree] = tempLight.full;
                 tempLight.full.degreeListNext = null;
                 tempLight.full.degreeListPrev = null;
@@ -317,7 +321,7 @@ public class Driver {
               // case 1.2 - there is at least one node at the new(decremented) degree, and
               // this node will be added to the head
               else {
-                System.out.println("case 1.2");
+                // System.out.println("case 1.2");
                 degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
                 tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
                 tempLight.full.degreeListPrev = null;
@@ -330,7 +334,7 @@ public class Driver {
               tempLight.full.degreeListNext.degreeListPrev = null;
               // case 2.1 - there are no nodes in the new(decremented) degree
               if (degreeList[tempLight.full.degree] == null) {
-                System.out.println("case 2.1");
+                // System.out.println("case 2.1");
                 degreeList[tempLight.full.degree] = tempLight.full;
                 tempLight.full.degreeListNext = null;
                 tempLight.full.degreeListPrev = null;
@@ -338,7 +342,7 @@ public class Driver {
               // case 2.2 - there is at least one node at the new(decremented) degree, and
               // this node will be added to the head
               else {
-                System.out.println("case 2.2");
+                // System.out.println("case 2.2");
                 degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
                 tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
                 tempLight.full.degreeListPrev = null;
@@ -353,7 +357,7 @@ public class Driver {
                                                                                          // degreeList, current
               // case 3.1 - there are no nodes in the new(decremented) degree
               if (degreeList[tempLight.full.degree] == null) {
-                System.out.println("case 3.1");
+                // System.out.println("case 3.1");
 
                 degreeList[tempLight.full.degree] = tempLight.full;
                 tempLight.full.degreeListNext = null;
@@ -362,12 +366,13 @@ public class Driver {
               // case 3.2 - there is at least one node at the new(decremented) degree, and
               // this node will be added to the head
               else {
-                System.out.println("case 3.2");
-                System.out.println("(tempLight.full.degreeListNext == null) " + tempLight.full.degreeListNext);
-                System.out.println("(tempLight.full.degreeListPrev != null).name " + tempLight.full.degreeListPrev.name);
-                System.out.println("degreeList[tempLight.full.degree].name " + degreeList[tempLight.full.degree].name);
-                System.out.println("tempLight.full.degree: " + tempLight.full.degree);
-                System.out.println("minDegree: " + minDegree);
+                // System.out.println("case 3.2");
+                // System.out.println("(tempLight.full.degreeListNext == null) " + tempLight.full.degreeListNext);
+                // System.out
+                //     .println("(tempLight.full.degreeListPrev != null).name " + tempLight.full.degreeListPrev.name);
+                // System.out.println("degreeList[tempLight.full.degree].name " + degreeList[tempLight.full.degree].name);
+                // System.out.println("tempLight.full.degree: " + tempLight.full.degree);
+                // System.out.println("minDegree: " + minDegree);
                 degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
                 tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
                 tempLight.full.degreeListPrev = null;
@@ -380,7 +385,7 @@ public class Driver {
               degreeList[tempLight.full.degree + 1] = null;
               // case 4.1 - there are no nodes in the new(decremented) degree
               if (degreeList[tempLight.full.degree] == null) {
-                System.out.println("case 4.1");
+                // System.out.println("case 4.1");
                 degreeList[tempLight.full.degree] = tempLight.full;
                 tempLight.full.degreeListNext = null;
                 tempLight.full.degreeListPrev = null;
@@ -388,29 +393,27 @@ public class Driver {
               // case 4.2 - there is at least one node at the new(decremented) degree, and
               // this node will be added to the head
               else {
-                System.out.println("case 4.2");
+                // System.out.println("case 4.2");
                 degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
                 tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
                 tempLight.full.degreeListPrev = null;
                 degreeList[tempLight.full.degree] = tempLight.full;
               }
             } else {
-              System.out.println("Something is very wrong");
+              // System.out.println("Something is very wrong");
             }
             for (int i = 0; i < c; i++) {
               tempFull = degreeList[i];
-              System.out.print(i + "\t");
+              // System.out.print(i + "\t");
               while (tempFull != null) {
-                System.out.print(tempFull.name + "->");
+                // System.out.print(tempFull.name + "->");
                 tempFull = tempFull.degreeListNext;
               }
-              System.out.println();
+              // System.out.println();
             }
-            System.out.println();
+            // System.out.println();
           }
           tempLight = tempLight.next;
-
-
 
         }
         minDegree--;
@@ -421,18 +424,18 @@ public class Driver {
     int terminalClique = 0;
     int prevColor = -1;
     boolean reachedTerminalClique = false;
-    for(int i = 0; i < c; i++) {
+    for (int i = 0; i < c; i++) {
       tempLight = tempFullDeleted.adjListHead;
       counter = 0;
-      while(tempLight != null) {
+      while (tempLight != null) {
         colors[counter] = 0;
         counter++;
         tempLight = tempLight.next;
       }
       tempLight = tempFullDeleted.adjListHead;
       counter = 0;
-      while(tempLight != null) {
-        if(tempLight.full.color != -1) {
+      while (tempLight != null) {
+        if (tempLight.full.color != -1) {
           colors[tempLight.full.color]++;
         }
         counter++;
@@ -440,35 +443,80 @@ public class Driver {
       }
       tempLight = tempFullDeleted.adjListHead;
       counter = 0;
-      while(tempLight != null) {
-        if(colors[counter] == 0) {
+      while (tempLight != null) {
+        if (colors[counter] == 0) {
           tempFullDeleted.color = counter;
           break;
         }
         counter++;
         tempLight = tempLight.next;
       }
-      if(tempFullDeleted.color == -1) {
+      if (tempFullDeleted.color == -1) {
         tempFullDeleted.color = colors[counter];
       }
 
-      if((tempFullDeleted.color == (prevColor + 1)) && (!reachedTerminalClique)) {
+      if ((tempFullDeleted.color == (prevColor + 1)) && (!reachedTerminalClique)) {
         terminalClique++;
-      }
-      else {
+      } else {
         reachedTerminalClique = true;
       }
-      System.out.println((c - i) + " name: " + tempFullDeleted.name + " color: " + tempFullDeleted.color + " counter: " + counter);
+      // System.out.println( (c - i) + " name: " + tempFullDeleted.name + " color: " + tempFullDeleted.color + " counter: " + counter);
       prevColor = tempFullDeleted.color;
-      tempFullDeleted = tempFullDeleted.orderingListPrev;
-    }
-    System.out.println("Terminal Clique: " + terminalClique);
+      if(tempFullDeleted.orderingListPrev != null) {
+        tempFullDeleted = tempFullDeleted.orderingListPrev;
+      }
 
+    }
+    long end = System.currentTimeMillis();
+    long timeSpent = end - start;
+    System.out.println("Smallest Last Time: " + timeSpent);
+
+    for(int i = 0; i < c - 1; i++) {
+      // System.out.println(tempFullDeleted.name);
+      tempFullDeleted = tempFullDeleted.orderingListNext;
+    }
+    int largestColor = -1;
+    double avgOriginalDegree = 0.0;
+    int maxDegreeWhenDeleted = -1;
+    try {
+      FileWriter fw = new FileWriter("Outputp2.txt");
+      fw.write("c: " + c);
+      fw.write("\ns: " + s);
+      fw.write("\nk: " + k);
+      fw.write("\ndist: " + dist);
+      fw.write("\nm: " + m);
+      fw.write("\nt: " + t);
+      fw.write("\n");
+      for (int i = 0; i < c; i++) {
+
+        fw.write("Name: " + tempFullDeleted.name + " Color: " + tempFullDeleted.color + " Original Degree: "
+            + tempFullDeleted.originalDegree + " Degree when deleted: " + tempFullDeleted.degreeWhenDeleted);
+        fw.write("\n");
+        if (tempFullDeleted.color > largestColor) {
+          largestColor = tempFullDeleted.color;
+        }
+        if (tempFullDeleted.degreeWhenDeleted > maxDegreeWhenDeleted) {
+          maxDegreeWhenDeleted = tempFullDeleted.degreeWhenDeleted;
+        }
+        avgOriginalDegree += tempFullDeleted.originalDegree;
+        tempFullDeleted = tempFullDeleted.orderingListPrev;
+      }
+      avgOriginalDegree /= c;
+      fw.write("\nTotal Number Of Colors Used: " + (largestColor + 1));
+      System.out.println("Total number of colors used: " + (largestColor + 1));
+      fw.write("\nAverage Original Degree: " + avgOriginalDegree);
+      fw.write("\nMaximum Degree When Deleted: " + maxDegreeWhenDeleted);
+      fw.write("\nTerminal Clique Size: " + terminalClique);
+      fw.close();
+    } catch (IOException e) {
+      System.out.println(e);
+    }
   }
 
   public static void welshPowell() {
+    long start = System.currentTimeMillis();
     prepareColoringDataStructures();
-    int maxDegree =  c - 1;
+    int maxDegree = c - 1;
     int numOfDeletedNodes = 0;
 
     int[] colors = new int[c];
@@ -491,14 +539,18 @@ public class Driver {
         System.out.println("Current Degree: " + maxDegree);
         System.out.println("Nothing at this degree");
         maxDegree--;
-      }
-      else {
+      } else {
         System.out.println("Current Degree: " + maxDegree);
         System.out.println("Deleted Node: " + degreeList[maxDegree].name);
-
+        if (tempFullDeleted == null) {
+          tempFullDeleted = degreeList[maxDegree];
+        } else {
+          tempFullDeleted.orderingListNext = degreeList[maxDegree];
+          degreeList[maxDegree].orderingListPrev = tempFullDeleted;
+          tempFullDeleted = degreeList[maxDegree];
+        }
         // degreeList[minDegree].degreeWhenDeleted = minDegree;
         numOfDeletedNodes++;
-
 
         tempLight = degreeList[maxDegree].adjListHead;
         counter = 0;
@@ -510,8 +562,8 @@ public class Driver {
 
         tempLight = degreeList[maxDegree].adjListHead;
         counter = 0;
-        while(tempLight != null) {
-          if(tempLight.full.color != -1) {
+        while (tempLight != null) {
+          if (tempLight.full.color != -1) {
             colors[tempLight.full.color]++;
           }
           counter++;
@@ -520,8 +572,8 @@ public class Driver {
 
         tempLight = degreeList[maxDegree].adjListHead;
         counter = 0;
-        while(tempLight != null) {
-          if(colors[counter] == 0) {
+        while (tempLight != null) {
+          if (colors[counter] == 0) {
             degreeList[maxDegree].color = counter;
             break;
           }
@@ -529,29 +581,69 @@ public class Driver {
           tempLight = tempLight.next;
         }
 
-        if(degreeList[maxDegree].color == -1) {
+        if (degreeList[maxDegree].color == -1) {
           degreeList[maxDegree].color = colors[counter];
         }
 
-        System.out.println(maxDegree + " name: " + degreeList[maxDegree].name + " color: " + degreeList[maxDegree].color + " counter: " + counter);
+        // System.out.println(maxDegree + " name: " + degreeList[maxDegree].name + " color: " + degreeList[maxDegree].color
+        //     + " counter: " + counter);
 
         if ((degreeList[maxDegree].degreeListNext != null) && (degreeList[maxDegree].degreeListPrev == null)) {
-          System.out.println("Original node case 2");
+          // System.out.println("Original node case 2");
           degreeList[maxDegree].degreeListNext.degreeListPrev = null;
           degreeList[maxDegree] = degreeList[maxDegree].degreeListNext;
         }
         // case 4 - only node for that degree
         else if ((degreeList[maxDegree].degreeListNext == null) && (degreeList[maxDegree].degreeListPrev == null)) {
-          System.out.println("Original node case 4");
+          // System.out.println("Original node case 4");
           degreeList[maxDegree] = null;
           degreePointers[maxDegree] = null;
-        }
-        else {
+        } else {
           System.out.println("SOMETHING IS WRONG");
         }
 
-
       }
+    }
+    long end = System.currentTimeMillis();
+    long timeSpent = end - start;
+    System.out.println("Welsh-Powell Time: " + timeSpent);
+
+
+    for(int i = 0; i < c - 1; i++) {
+      // System.out.println(tempFullDeleted.name);
+      tempFullDeleted = tempFullDeleted.orderingListPrev;
+    }
+
+
+    int largestColor = -1;
+    double avgOriginalDegree = 0.0;
+    try {
+      FileWriter fw = new FileWriter("Outputp2.txt");
+      fw.write("c: " + c);
+      fw.write("\ns: " + s);
+      fw.write("\nk: " + k);
+      fw.write("\ndist: " + dist);
+      fw.write("\nm: " + m);
+      fw.write("\nt: " + t);
+      fw.write("\n");
+      for (int i = 0; i < c; i++) {
+
+        fw.write("Name: " + tempFullDeleted.name + " Color: " + tempFullDeleted.color + " Original Degree: "
+            + tempFullDeleted.originalDegree);
+        fw.write("\n");
+        if (tempFullDeleted.color > largestColor) {
+          largestColor = tempFullDeleted.color;
+        }
+        avgOriginalDegree += tempFullDeleted.originalDegree;
+        tempFullDeleted = tempFullDeleted.orderingListNext;
+      }
+      avgOriginalDegree /= c;
+      fw.write("\nTotal Number Of Colors Used: " + (largestColor + 1));
+      System.out.println("Total Number Of Colors Used: " + (largestColor + 1));
+      fw.write("\nAverage Original Degree: " + avgOriginalDegree);
+      fw.close();
+    } catch (IOException e) {
+      System.out.println(e);
     }
   }
 
@@ -573,10 +665,12 @@ public class Driver {
             tempLight = new Lightnode(adjacencyList[e[j]]);
             adjacencyList[i].adjListHead = tempLight; // make the head of the adjacency list the first edge
             adjacencyList[i].degree++;
+            adjacencyList[i].originalDegree++;
           } else {
             tempLight.next = new Lightnode(adjacencyList[e[j]]);
             tempLight = tempLight.next;
             adjacencyList[i].degree++;
+            adjacencyList[i].originalDegree++;
           }
         }
       } else { // handles edge case of p[i + 1] being out of range
@@ -585,10 +679,12 @@ public class Driver {
             tempLight = new Lightnode(adjacencyList[e[j]]);
             adjacencyList[i].adjListHead = tempLight; // make the head of the adjacency list the first edge
             adjacencyList[i].degree++;
+            adjacencyList[i].originalDegree++;
           } else {
             tempLight.next = new Lightnode(adjacencyList[e[j]]);
             tempLight = tempLight.next;
             adjacencyList[i].degree++;
+            adjacencyList[i].originalDegree++;
           }
         }
       }
@@ -609,57 +705,60 @@ public class Driver {
       }
     }
 
-    // PRINTING DEGREE LIST
-    // for(int i = 0; i < c; i++) {
-    // tempFull = degreeList[i];
-    // System.out.print(i + "\t");
-    // while(tempFull != null) {
-    // System.out.print(tempFull.name + "->");
-    // tempFull = tempFull.degreeListNext;
-    // }
-    // System.out.println();
-    // }
-
     // PRINTING ADJACENCY LIST
-    // for(int i = 0; i < c; i++) { // go through each vertex
-    // System.out.print(adjacencyList[i].degree + "\t");
-    // System.out.print(adjacencyList[i].name + "->");
-    // if(i != c - 1) { // handles edge case of p[i + 1] being out of range
-    // for(int j = p[i]; j < p[i + 1]; j++) { // go through edges of vertex
-    // if(j == p[i]) { // first case is a special case
-    // // temp = new Lightnode(adjacencyList[e[j]]);
-    // // adjacencyList[i].adjListHead = temp; // make the head of the adjacency
-    // list the first edge
-    // tempLight = adjacencyList[i].adjListHead;
-    // System.out.print(tempLight.full.name + "->");
-    // }
-    // else {
-    // // temp.next = new Lightnode(adjacencyList[e[j]]);
-    // tempLight = tempLight.next;
-    // System.out.print(tempLight.full.name + "->");
+    // for (int i = 0; i < c; i++) { // go through each vertex
+    //   System.out.print(adjacencyList[i].degree + "\t");
+    //   System.out.print(adjacencyList[i].name + "->");
+    //   if (i != c - 1) { // handles edge case of p[i + 1] being out of range
+    //     for (int j = p[i]; j < p[i + 1]; j++) { // go through edges of vertex
+    //       if (j == p[i]) { // first case is a special case
+    //         // temp = new Lightnode(adjacencyList[e[j]]);
+    //         // adjacencyList[i].adjListHead = temp; // make the head of the adjacency
+    //         // list the first edge
+    //         tempLight = adjacencyList[i].adjListHead;
+    //         System.out.print(tempLight.full.name + "->");
+    //       } else {
+    //         // temp.next = new Lightnode(adjacencyList[e[j]]);
+    //         tempLight = tempLight.next;
+    //         System.out.print(tempLight.full.name + "->");
 
+    //       }
+    //     }
+    //   } else { // handles edge case of p[i + 1] being out of range
+    //     for (int j = p[p.length - 1]; j < e.length; j++) {
+    //       if (j == p[p.length - 1]) { // go through edges of vertex
+    //         // temp = new Lightnode(adjacencyList[e[j]]);
+    //         // adjacencyList[i].adjListHead = temp; // make the head of the adjacency
+    //         // list the first edge
+    //         tempLight = adjacencyList[i].adjListHead;
+    //         System.out.print(tempLight.full.name + "->");
+    //       } else {
+    //         // temp.next = new Lightnode(adjacencyList[e[j]]);
+    //         // temp = temp.next;
+    //         tempLight = tempLight.next;
+    //         System.out.print(tempLight.full.name + "->");
+    //       }
+    //     }
+    //   }
+    //   System.out.println();
     // }
-    // }
-    // }
-    // else { // handles edge case of p[i + 1] being out of range
-    // for(int j = p[p.length - 1]; j < e.length; j++) {
-    // if(j == p[p.length - 1]) { // go through edges of vertex
-    // // temp = new Lightnode(adjacencyList[e[j]]);
-    // // adjacencyList[i].adjListHead = temp; // make the head of the adjacency
-    // list the first edge
-    // tempLight = adjacencyList[i].adjListHead;
-    // System.out.print(tempLight.full.name + "->");
-    // }
-    // else {
-    // // temp.next = new Lightnode(adjacencyList[e[j]]);
-    // // temp = temp.next;
-    // tempLight = tempLight.next;
-    // System.out.print(tempLight.full.name + "->");
-    // }
-    // }
-    // }
+
+
     // System.out.println();
-    // }
+    // System.out.println();
+    // System.out.println();
+
+
+        // PRINTING DEGREE LIST
+        // for (int i = 0; i < c; i++) {
+        //   tempFull = degreeList[i];
+        //   System.out.print(i + "\t");
+        //   while (tempFull != null) {
+        //     System.out.print(tempFull.name + "->");
+        //     tempFull = tempFull.degreeListNext;
+        //   }
+        //   System.out.println();
+        // }
 
   }
 }
