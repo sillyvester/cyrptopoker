@@ -1,0 +1,195 @@
+-0: 4-17-18-16-1-14-2-
+1: 7-2-17-9-10-5-13-18-4-11-12-6-16-14-0-
+-2: 7-17-9-1-8-19-14-15-12-11-6-3-13-18-0-
+-3: 17-11-14-4-8-10-15-9-13-19-2-12-7-18-6-16-
+-4: 13-18-9-1-19-10-6-17-11-14-3-7-0-16-12-8-
+-5: 17-7-10-1-
+-6: 19-10-4-9-12-2-11-1-7-18-17-3-
+-7: 2-17-9-1-10-5-11-4-18-3-6-13-12-16-14-
+-8: 2-19-14-15-3-11-10-13-12-4-16-
+-9: 7-2-17-1-13-18-4-19-10-6-3-12-15-16-14-
+-10: 17-7-5-1-19-4-9-6-3-11-8-15-16-18-
+-11: 17-14-4-3-7-1-8-10-15-12-2-6-16-13-
+-12: 2-11-1-6-13-8-3-4-9-7-14-
+-13: 18-4-9-1-3-19-2-12-8-7-16-14-11-
+-14: 8-2-19-15-17-11-4-3-16-13-1-18-0-12-7-9-
+-15: 8-2-19-14-3-11-10-16-9-17-
+-16: 4-0-17-18-8-15-3-11-7-10-1-14-13-9-19-  RIGHT BEFORE THIS GETS DELETED IS THE TERMINAL CLIQUE
+-17: 7-2-9-1-10-5-11-14-4-3-0-18-16-6-15-19-
+-18: 13-4-9-1-0-17-16-7-3-6-10-14-2-
+-19: 8-2-14-15-10-4-9-6-3-13-16-17-
+
+
+null pointer
+Current Degree: 9
+Nothing at this degree
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10	13->6->10->2->
+11	16->14->11->
+12	17->3->9->4->1->18->
+13	7->
+14
+15
+16
+17
+18
+19
+
+
+Current Degree: 10
+Deleted Node: 13
+Original node case 2
+
+
+
+          // if(tempLight.full.deleted != 1) {
+          //   System.out.println("Now looking at: " + tempLight.full.name);
+          //   System.out.println("Deleted field: " + tempLight.full.deleted);
+          //   tempLight.full.degree--;
+          //   // case 1 - middle node
+          //   if ((tempLight.full.degreeListNext != null) && (tempLight.full.degreeListPrev != null)) {
+          //     tempLight.full.degreeListPrev.degreeListNext = tempLight.full.degreeListNext;
+          //     tempLight.full.degreeListNext.degreeListPrev = tempLight.full.degreeListPrev;
+          //     // case 1.1 - there are no nodes in the new(decremented) degree
+          //     if (degreeList[tempLight.full.degree] == null) {
+          //       System.out.println("case 1.1");
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+          //       tempLight.full.degreeListNext = null;
+          //       tempLight.full.degreeListPrev = null;
+          //     }
+          //     // case 1.2 - there is at least one node at the new(decremented) degree, and
+          //     // this node will be added to the head
+          //     else {
+          //       System.out.println("case 1.2");
+          //       degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
+          //       tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
+          //       tempLight.full.degreeListPrev = null;
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+          //     }
+          //   }
+          //   // case 2 - first node for that degree
+          //   else if ((tempLight.full.degreeListNext != null) && (tempLight.full.degreeListPrev == null)) {
+          //     degreeList[tempLight.full.degree + 1] = tempLight.full.degreeListNext;
+          //     tempLight.full.degreeListNext.degreeListPrev = null;
+          //     // case 2.1 - there are no nodes in the new(decremented) degree
+          //     if (degreeList[tempLight.full.degree] == null) {
+          //       System.out.println("case 2.1");
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+          //       tempLight.full.degreeListNext = null;
+          //       tempLight.full.degreeListPrev = null;
+          //     }
+          //     // case 2.2 - there is at least one node at the new(decremented) degree, and
+          //     // this node will be added to the head
+          //     else {
+          //       System.out.println("case 2.2");
+          //       degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
+          //       tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
+          //       tempLight.full.degreeListPrev = null;
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+          //     }
+          //   }
+          //   // case 3 - last node for that degree
+          //   else if ((tempLight.full.degreeListNext == null) && (tempLight.full.degreeListPrev != null)) {
+          //     tempLight.full.degreeListPrev.degreeListNext = null;
+          //     degreePointers[tempLight.full.degree + 1] = tempLight.full.degreeListPrev; // keeps degreePointers, which
+          //                                                                                // tracks the tail of each
+          //                                                                                // degreeList, current
+          //     // case 3.1 - there are no nodes in the new(decremented) degree
+          //     if (degreeList[tempLight.full.degree] == null) {
+          //       System.out.println("case 3.1");
+
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+          //       tempLight.full.degreeListNext = null;
+          //       tempLight.full.degreeListPrev = null;
+          //     }
+          //     // case 3.2 - there is at least one node at the new(decremented) degree, and
+          //     // this node will be added to the head
+          //     else {
+          //       System.out.println("case 3.2");
+          //       System.out.println("(tempLight.full.degreeListNext == null) " + tempLight.full.degreeListNext);
+          //       System.out.println("(tempLight.full.degreeListPrev != null).name " + tempLight.full.degreeListPrev.name);
+          //       System.out.println("degreeList[tempLight.full.degree].name " + degreeList[tempLight.full.degree].name);
+          //       System.out.println("tempLight.full.degree: " + tempLight.full.degree);
+          //       System.out.println("minDegree: " + minDegree);
+          //       degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
+          //       tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
+          //       tempLight.full.degreeListPrev = null;
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+
+          //     }
+          //   }
+          //   // case 4 - only node for that degree
+          //   else if ((tempLight.full.degreeListNext == null) && (tempLight.full.degreeListPrev == null)) {
+          //     degreeList[tempLight.full.degree + 1] = null;
+          //     // case 4.1 - there are no nodes in the new(decremented) degree
+          //     if (degreeList[tempLight.full.degree] == null) {
+          //       System.out.println("case 4.1");
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+          //       tempLight.full.degreeListNext = null;
+          //       tempLight.full.degreeListPrev = null;
+          //     }
+          //     // case 4.2 - there is at least one node at the new(decremented) degree, and
+          //     // this node will be added to the head
+          //     else {
+          //       System.out.println("case 4.2");
+          //       degreeList[tempLight.full.degree].degreeListPrev = tempLight.full;
+          //       tempLight.full.degreeListNext = degreeList[tempLight.full.degree];
+          //       tempLight.full.degreeListPrev = null;
+          //       degreeList[tempLight.full.degree] = tempLight.full;
+          //     }
+          //   } else {
+          //     System.out.println("Something is very wrong");
+          //   }
+          //   for (int i = 0; i < c; i++) {
+          //     tempFull = degreeList[i];
+          //     System.out.print(i + "\t");
+          //     while (tempFull != null) {
+          //       System.out.print(tempFull.name + "->");
+          //       tempFull = tempFull.degreeListNext;
+          //     }
+          //     System.out.println();
+          //   }
+          //   System.out.println();
+          // }
+
+
+
+
+
+
+        // case 2 - first node for that degree
+        // if ((degreeList[minDegree].degreeListNext != null) && (degreeList[minDegree].degreeListPrev == null)) {
+        //   System.out.println("Original node case 2");
+        //   degreeList[minDegree].degreeListNext.degreeListPrev = null;
+        //   degreeList[minDegree] = degreeList[minDegree].degreeListNext;
+        // }
+        // // case 4 - only node for that degree
+        // else if ((degreeList[minDegree].degreeListNext == null) && (degreeList[minDegree].degreeListPrev == null)) {
+        //   System.out.println("Original node case 4");
+        //   degreeList[minDegree] = null;
+        //   degreePointers[minDegree] = null;
+        // }
+        // else {
+        //   System.out.println("SOMETHING IS WRONG");
+        // }
+
+
+
+        // degreeList[maxDegree].deleted = 1;
+        // if(tempFullDeleted == null) {
+        //   tempFullDeleted = degreeList[minDegree];
+        // }
+        // else {
+        //   tempFullDeleted.orderingListNext = degreeList[minDegree];
+        //   degreeList[minDegree].orderingListPrev = tempFullDeleted;
+        //   tempFullDeleted = degreeList[minDegree];
+        // }
